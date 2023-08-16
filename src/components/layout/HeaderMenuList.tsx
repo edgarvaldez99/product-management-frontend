@@ -1,6 +1,6 @@
 import { Avatar, Button, Menu, MenuItem } from "@mui/material";
-import React, { useContext, useState } from "react";
-import { AuthUserContext } from "src/contexts/AuthUserContext";
+import React, { useState } from "react";
+import { useAuthUserContext } from "src/hooks/contexts";
 import { User } from "src/interfaces/user";
 // import AuthService from "src/services/auth.service";
 
@@ -11,7 +11,7 @@ type HeaderMenuListProps = {
 export default function HeaderMenuList({
   authenticatedUser,
 }: HeaderMenuListProps) {
-  const { logout } = useContext(AuthUserContext);
+  const { logout } = useAuthUserContext();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {

@@ -1,25 +1,19 @@
-import { createContext, useState, ReactNode } from "react";
+import { PropsWithChildren, createContext, useState } from "react";
 import { User } from "src/interfaces/user";
 
-interface AuthUserContextProps {
+interface AuthUserContextType {
   user: User | null;
   setUser: (user: User | null) => void;
   logout: () => void;
 }
 
-export const AuthUserContext = createContext<AuthUserContextProps>({
+export const AuthUserContext = createContext<AuthUserContextType>({
   user: null,
-   
   setUser: () => {},
-   
   logout: () => {},
 });
 
-export default function AuthUserProvider({
-  children,
-}: {
-  children: ReactNode;
-}) {
+export function AuthUserProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User | null>(null);
 
   function logout() {
