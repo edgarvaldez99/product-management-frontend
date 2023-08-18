@@ -1,8 +1,9 @@
 import React, { PropsWithChildren, createContext, useState } from "react";
+import ModalComponent from "src/components/ui/ModalComponent";
 
 type ModalContent = React.ReactNode;
 
-type ModalContextType = {
+export type ModalContextType = {
   isModalOpen: boolean;
   modalContent: ModalContent;
   openModal: (content: ModalContent) => void;
@@ -38,6 +39,11 @@ export function ModalProvider({ children }: PropsWithChildren) {
   return (
     <ModalContext.Provider value={modalContextValue}>
       {children}
+      <ModalComponent
+        isModalOpen={isModalOpen}
+        closeModal={closeModal}
+        modalContent={modalContent}
+      />
     </ModalContext.Provider>
   );
 }

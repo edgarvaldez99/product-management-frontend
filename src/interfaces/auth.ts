@@ -4,9 +4,8 @@ export interface LoginRequest {
 }
 
 export interface SignUpRequest extends LoginRequest {
-  username: string;
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  password_confirmation: string;
+  passwordConfirmation: string;
 }

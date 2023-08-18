@@ -1,11 +1,10 @@
 import { AppBar, Button, Toolbar } from "@mui/material";
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { AuthUserContext } from "src/contexts/AuthUserContext";
+import { useAuthUserContext } from "src/hooks/contexts";
 import HeaderMenuList from "./HeaderMenuList";
 
 export default function Header() {
-  const { user: authenticatedUser } = useContext(AuthUserContext);
+  const { user: authenticatedUser } = useAuthUserContext();
   return (
     <AppBar>
       <Toolbar>

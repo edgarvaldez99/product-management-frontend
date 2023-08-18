@@ -1,26 +1,23 @@
 import Snackbar from "@mui/material/Snackbar";
 import { PropsWithChildren, createContext, useState } from "react";
 
-type SetOpenSnackbarProps = { message: string; isError: boolean };
-
 interface SnackbarContextType {
-  setOpenSnackbar: ({ message, isError }: SetOpenSnackbarProps) => void;
+  setOpenSnackbar: (message?: string, type?: string) => void;
 }
 
 export const SnackbarContext = createContext<SnackbarContextType>({
-   
   setOpenSnackbar: () => {},
 });
 
 export function SnackbarProvider({ children }: PropsWithChildren) {
-  const [snackbar, setSnackbar] = useState<SetOpenSnackbarProps>({
+  const [snackbar, setSnackbar] = useState({
     message: "",
-    isError: false,
+    type: "success",
   });
   const isOpen = snackbar.message !== "";
 
-  const setOpenSnackbar = ({ message = "", isError = false } = {}) => {
-    setSnackbar({ message, isError });
+  const setOpenSnackbar = (message = "", type = "success") => {
+    setSnackbar({ message, type });
   };
 
   return (
@@ -35,7 +32,7 @@ export function SnackbarProvider({ children }: PropsWithChildren) {
         autoHideDuration={6000}
         sx={{
           "& .MuiSnackbarContent-root": {
-            backgroundColor: snackbar.isError ? "#f44336" : "#4caf50",
+            backgroundColor: snackbar.type === "error" ? "#f44336" : "#4caf50",
           },
         }}
       />
