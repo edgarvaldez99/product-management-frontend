@@ -1,14 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ListRequest } from "src/interfaces/request";
-import { User,  } from "src/interfaces/user";
+import { User } from "src/interfaces/user";
 import axios from "./axios";
 
 const endpoint = "/users/";
 
-function getUsers({ params }: ListRequest): Promise<User[]> {
-  return axios.get<any, User[]>(endpoint, {
+async function getUsers({ params, signal }: ListRequest): Promise<User[]> {
+  return axios.get<undefined, User[]>(endpoint, {
     data: {},
     params,
+    signal,
   });
 }
 

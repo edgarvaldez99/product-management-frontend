@@ -6,6 +6,7 @@ interface SnackbarContextType {
 }
 
 export const SnackbarContext = createContext<SnackbarContextType>({
+   
   setOpenSnackbar: () => {},
 });
 

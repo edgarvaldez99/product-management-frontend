@@ -1,23 +1,22 @@
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import { useSnackbar } from "./contexts";
 
 export default function useQueryClientState() {
+  const { setOpenSnackbar } = useSnackbar();
   const queryCache = new QueryCache({
-    onError: (error, query) => {
-      // Only show error toasts if we already have data in the cache
-      // which indicates a failed background update
-      if (query.state.data !== undefined) {
-        console.error(error);
-      }
+    onError: (error) => {
+      setOpenSnackbar(error as string, "error");
     },
   });
   const mutationCache = new MutationCache({
+    onSuccess: (_data, _variables, _context, mutation) => {
+      if (mutation.options.onSuccess) return;
+      setOpenSnackbar("Realizado Satisfactoriamente");
+    },
     onError: (error, _variables, _context, mutation) => {
-      // If this mutation has an onError defined, skip this
       if (mutation.options.onError) return;
-
-      // any error handling code...
-      console.error(error);
+      setOpenSnackbar(error as string, "error");
     },
   });
 

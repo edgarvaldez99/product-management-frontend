@@ -9,3 +9,7 @@ export interface SignUpRequest extends LoginRequest {
   email: string;
   passwordConfirmation: string;
 }
+
+export interface RefreshRequest {
+  refresh: string;
+}

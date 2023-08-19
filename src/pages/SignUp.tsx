@@ -10,14 +10,13 @@ import AuthService from "src/services/auth.service";
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const { setUser } = useAuthUserContext();
+  const { login } = useAuthUserContext();
 
   const { mutate, isLoading } = useMutation<User, unknown, SignUpRequest>({
-    mutationFn: (signUpForm) =>
-      AuthService.signup(signUpForm),
+    mutationFn: (signUpForm) => AuthService.signup(signUpForm),
     onSuccess: (user) => {
-      setUser(user);
-      navigate("/home");
+      login(user);
+      navigate("/product");
     },
   });
 

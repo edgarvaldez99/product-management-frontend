@@ -1,0 +1,30 @@
+.header {
+  padding: 0 0 0 0;
+  text-align: left;
+  background-color: #ffffff !important;
+}
+
+.headerImg {
+  width: auto;
+  height: 60px;
+  padding-right: 25px;
+}
+
+.buttonLogin {
+  width: auto;
+  margin-left: auto;
+  margin-right: 0px;
+  color: #011c52;
+  margin-left: auto;
+}
+
+.btn {
+  background-color: #e0e0e0 !important;
+  color: rgba(0, 0, 0, 0.87) !important;
+  width: auto;
+}
+
+.btnLabel {
+  font-weight: 600;
+  margin-right: 8px;
+}

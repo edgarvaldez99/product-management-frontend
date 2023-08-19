@@ -1,4 +1,5 @@
-import { GridColDef } from "@mui/x-data-grid";
+import { GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { User } from "src/interfaces/user";
 
 export default function UserColumnDef(): GridColDef[] {
   return [
@@ -48,6 +49,8 @@ export default function UserColumnDef(): GridColDef[] {
       minWidth: 200,
       maxWidth: 250,
       filterable: false,
+      valueGetter: (params: GridValueGetterParams<User>) =>
+        params.row.isActive ? "Si" : "No",
     },
   ];
 }

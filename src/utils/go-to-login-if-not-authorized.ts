@@ -1,10 +1,18 @@
-import { LoaderFunctionArgs } from "react-router-dom";
-import { goToHomeWhenIsRoot } from "./go-to-home-when-is-root";
+import { refreshTokenOrLogout } from "./refresh-token-or-logout";
+import { redirect } from "react-router-dom";
+import { BASE_URL } from "src/env";
 
-export async function goToLoginIfNotAuthorized(args: LoaderFunctionArgs) {
-  const { request } = args;
+export async function goToLoginIfNotAuthorized({
+  request,
+}: {
+  request: Request;
+}) {
   if (request.url === "/login") {
     return null;
   }
-  return goToHomeWhenIsRoot(args);
+  if (request.url === `${BASE_URL}/`) {
+    return redirect("/product");
+  }
+  refreshTokenOrLogout();
+  return null;
 }

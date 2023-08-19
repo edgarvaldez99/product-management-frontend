@@ -1,51 +1,60 @@
 import { Avatar, Button, Menu, MenuItem } from "@mui/material";
-import React, { useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { useAuthUserContext } from "src/hooks/contexts";
+import useNavigateAndCheckError from "src/hooks/useNavigateAndCheckErrors";
 import { User } from "src/interfaces/user";
-// import AuthService from "src/services/auth.service";
+import { getUserLabel } from "src/utils/user-label";
+import classes from "./Header.module.css";
 
 type HeaderMenuListProps = {
+  isMobile: boolean;
   authenticatedUser: User;
 };
 
 export default function HeaderMenuList({
+  isMobile,
   authenticatedUser,
 }: HeaderMenuListProps) {
+  const { goToPage: goToLoginPage } = useNavigateAndCheckError("/login");
   const { logout } = useAuthUserContext();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const userLabel = useMemo(
+    () => getUserLabel(authenticatedUser),
+    [authenticatedUser],
+  );
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+  function handleMenuClick(event: React.MouseEvent<HTMLElement>) {
     setAnchorEl(event.currentTarget);
-  };
+  }
 
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     setAnchorEl(null);
     logout();
-    // AuthService.logout();
-  };
+    goToLoginPage();
+  }, [logout, goToLoginPage]);
 
   return (
     <>
       <Button
+        className={classes.btn}
         variant="contained"
-        aria-controls="simple-menu"
+        aria-controls="header-menu-list"
         aria-haspopup="true"
-        onClick={handleClick}
+        onClick={handleMenuClick}
       >
-        {authenticatedUser.first_name}
+        {!isMobile && <span className={classes.btnLabel}>{userLabel}</span>}
         <Avatar />
       </Button>
       <Menu
-        style={{ position: "fixed", marginTop: "45px" }}
-        id="simple-menu"
+        id="header-menu-list"
         anchorEl={anchorEl}
         keepMounted
         open={Boolean(anchorEl)}
-        onClose={handleClose}
+        onClose={handleCloseMenu}
       >
         <MenuItem onClick={handleLogout}>Cerrar Sesión</MenuItem>
       </Menu>

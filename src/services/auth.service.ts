@@ -1,8 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { TOKEN_KEY } from "src/constants";
-import { LoginRequest, SignUpRequest } from "src/interfaces/auth";
+import {
+  LoginRequest,
+  RefreshRequest,
+  SignUpRequest,
+} from "src/interfaces/auth";
 import { TokenData } from "src/interfaces/token";
 import { User } from "src/interfaces/user";
+import { logout } from "src/utils/logout";
 import { setToken } from "src/utils/token";
 import axios from "./axios";
 
@@ -41,9 +45,21 @@ async function login({ username, password }: LoginRequest): Promise<User> {
   }
 }
 
-function logout() {
-  localStorage.removeItem(TOKEN_KEY);
-  localStorage.removeItem("user");
+async function refreshToken({ refresh }: RefreshRequest): Promise<User> {
+  const response = await axios.post<RefreshRequest, TokenData>(
+    "/token/refresh/",
+    { refresh },
+  );
+  if (response.access) {
+    setToken(response);
+  }
+  const user = await axios.get<any, User>("/token/user/", { data: {} });
+  if (!user.isActive) {
+    throw new Error("El usuario está inactivo");
+  } else {
+    localStorage.setItem("user", JSON.stringify(user));
+    return user;
+  }
 }
 
 function checkCurrentUser(): Promise<User> {
@@ -55,6 +71,7 @@ const AuthService = {
   login,
   logout,
   checkCurrentUser,
+  refreshToken,
 };
 
 export default AuthService;

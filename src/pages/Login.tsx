@@ -4,23 +4,19 @@ import AccountLayout from "src/components/account/AccountLayout";
 import LoginForm from "src/components/account/login/LoginForm";
 import useLogin from "src/components/account/login/useLoginForm";
 import { useAuthUserContext } from "src/hooks/contexts";
-import { LoginRequest } from "src/interfaces/auth";
+import { LoginRequest as FormData } from "src/interfaces/auth";
 import { User } from "src/interfaces/user";
 import AuthService from "src/services/auth.service";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { setUser } = useAuthUserContext();
+  const { login } = useAuthUserContext();
 
-  const { mutate, isLoading } = useMutation<User, unknown, LoginRequest>({
-    mutationFn: (loginForm) =>
-      AuthService.login({
-        username: loginForm.username,
-        password: loginForm.password,
-      }),
+  const { mutate, isLoading } = useMutation<User, unknown, FormData>({
+    mutationFn: (form) => AuthService.login(form),
     onSuccess: (user) => {
-      setUser(user);
-      navigate("/home");
+      login(user);
+      navigate("/product");
     },
   });
 
