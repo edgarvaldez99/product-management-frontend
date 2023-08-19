@@ -38,14 +38,14 @@ instance.interceptors.response.use(
       errorMessage = error.response?.data?.message;
     } else if (error.message === "Network Error") {
       errorMessage = "No se pudo conectar al Servidor";
-    } else if (error.response?.data) {
-      errorMessage = Object.entries(error.response?.data)
-        .map(([key, value]) => `${key.toUpperCase()}: ${value}`)
-        .join(" ");
     } else if (error.response?.status === 401) {
       errorMessage = "";
       logout();
       location.replace("/login");
+    } else if (error.response?.data) {
+      errorMessage = Object.entries(error.response?.data)
+        .map(([key, value]) => `${key.toUpperCase()}: ${value}`)
+        .join(" ");
     } else {
       errorMessage = error.message;
     }

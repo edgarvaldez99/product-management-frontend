@@ -12,7 +12,7 @@ export default function ProductStatusField<T>({
   formik,
 }: FieldProps<T>) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const value = (formik.values as any)[name];
+  const value = (formik.values as any)[name] || null;
   const data = [ProductStatus.ACTIVE, ProductStatus.INACTIVE];
   return (
     <Autocomplete

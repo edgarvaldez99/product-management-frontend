@@ -3,5 +3,6 @@ export interface SignalRequest {
 }
 
 export interface ListRequest extends SignalRequest {
-  params?: Record<string, string>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  params?: any;
 }

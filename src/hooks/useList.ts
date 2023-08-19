@@ -1,31 +1,26 @@
-import { GridColDef } from "@mui/x-data-grid";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
-import { ChangeEvent, useCallback } from "react";
+import { useCallback, useState } from "react";
 import { ListRequest } from "src/interfaces/request";
-import useFilterRequestParams from "./useFilterRequestParams";
 
 type UseListResult<TData = unknown, TError = unknown> = UseQueryResult<
   TData,
   TError
 > & {
-  setFilter: (event: ChangeEvent<HTMLInputElement>) => void;
+  filters: any;
+  setFilters: (event: any) => void;
 };
 
 type UseListProps<T> = {
   listKey: string;
   getListFn: (req: ListRequest) => Promise<T>;
-  columnDef: GridColDef[];
 };
 
 export default function useList<T>({
   listKey,
   getListFn,
-  columnDef,
 }: UseListProps<T>): UseListResult<T | undefined> {
-  const {
-    filters,
-    setFilter,
-  } = useFilterRequestParams(columnDef);
+  const [filters, setFilters] = useState<any>({});
   const getList = useCallback(() => {
     return getListFn({ params: filters });
   }, [filters]);
@@ -36,6 +31,7 @@ export default function useList<T>({
   });
   return {
     ...query,
-    setFilter,
+    filters,
+    setFilters,
   };
 }

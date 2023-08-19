@@ -7,21 +7,14 @@ import UserService from "src/services/user.service";
 
 export default function UserList() {
   const columnDef = UserColumnDef();
-  const { data, setFilter } = useList({
+  const { data } = useList({
     listKey: USER_QUERY_KEY,
-    columnDef,
     getListFn: UserService.getUsers,
   });
 
   return (
-    <PageLayout
-      title="Usuarios"
-      onSearchChange={setFilter}
-    >
-      <Table
-        rows={data ?? []}
-        columns={columnDef}
-      />
+    <PageLayout title="Usuarios">
+      <Table rows={data ?? []} columns={columnDef} />
     </PageLayout>
   );
 }
