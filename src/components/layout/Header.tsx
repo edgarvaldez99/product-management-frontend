@@ -23,7 +23,7 @@ export default function Header({ isMobile, onMenuClick }: HeaderProps) {
             <div className={classes.buttonLogin}>
               {!authenticatedUser ? (
                 <Link to="/login">
-                  <Button className={classes.btn} variant="contained">
+                  <Button className={classes.btn} variant="contained" color="secondary">
                     INGRESAR
                   </Button>
                 </Link>
